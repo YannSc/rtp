@@ -306,13 +306,8 @@ func TestH264Payloader_Payload_SPS_and_PPS_handling(t *testing.T) {
 
 func TestH264Payloader_Payload_SPS_and_PPS_handling_no_stapA(t *testing.T) {
 	pck := H264Payloader{}
-	pck.DisableStapA(true)
-	//input := [][]byte{
-	//	{0x78, 0x00, 0x03, 0x07, 0x00, 0x01, 0x00, 0x03, 0x08, 0x02, 0x03},
-	//}
-	//expected_pps := [][]byte{
-	//	{0x05, 0x04, 0x05},
-	//}
+	pck.disableStapAPackets()
+
 	expectedSps := []byte{0x07, 0x00, 0x01}
 	// The SPS is packed as a single NALU
 	res := pck.Payload(1500, expectedSps)
@@ -322,7 +317,7 @@ func TestH264Payloader_Payload_SPS_and_PPS_handling_no_stapA(t *testing.T) {
 	if !reflect.DeepEqual(res[0], expectedSps) {
 		t.Fatal("SPS has not been packed correctly")
 	}
-
+	// The PPS is packed as a single NALU
 	expectedPps := []byte{0x08, 0x02, 0x03}
 	res = pck.Payload(1500, expectedPps)
 	if len(res) != 1 {
