@@ -15,7 +15,7 @@ type H264Payloader struct {
 	disableStapA     bool
 }
 
-func (p *H264Payloader) dispableStapA(b bool) {
+func (p *H264Payloader) DisableStapA(b bool) {
 	p.disableStapA = b
 }
 
